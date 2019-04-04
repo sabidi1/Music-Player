@@ -1,6 +1,7 @@
 ## How to run:
 ### 1. Start server
-#### 1.1 Run `python3 server/server.py` 
+#### 1.1 `cd server` 
+#### 1.2 Run `python3 server.py`
 ### 2. Start React app
 #### 2.1 Run `npm install` command.
 #### 2.2 Run `npm start` command.
