@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Player from './Player'
+import files from './files';
 
 class App extends Component {
   render() {
