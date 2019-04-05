@@ -30,6 +30,7 @@
     bottom: 15px;
     right:100px ;
     background: #F9A4A9;
+    cursor: pointer;
 }
 .progress > .bar{
     position: absolute;
@@ -46,4 +47,7 @@
     bottom: 0;
     width: 30%;
     background: floralwhite; 
+}
+.time{
+    color:white;
 }
