@@ -4,6 +4,7 @@
     width: 100%;
     height: 50px;
     position: relative;
+
 }
 .controls>a{
     text-decoration: none;
@@ -37,7 +38,7 @@
     left: 5px;
     right: 5px;
     top: 5px;
-    bottom: 5px; 
+    bottom: 5px;
 }
 
 .progress > .bar > div{
@@ -46,8 +47,12 @@
     top: 0;
     bottom: 0;
     width: 30%;
-    background: floralwhite; 
+    background: floralwhite;
 }
 .time{
-    color:white;
+    position:absolute;
+    right: 3px;
+    color: floralwhite;
+    padding-top: 15px;
+    text-align: center;
 }

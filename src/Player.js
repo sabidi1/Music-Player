@@ -7,13 +7,26 @@ class Player extends Component {
     constructor() {
         super();
         this.state = {
-            song_src: 'http://localhost:8000/Imagine%20Dragons%20-%20Natural.mp3',
             is_playing: false,
             progress: 0,
             in_set_progress_mode:false,
         };
         this.is_progress_dirty = false;
-        this.registered_events = false;
+        this.interval_id = setInterval(this.onUpdate.bind(this), 250);
+    }
+    onUpdate(){
+      var player = this.refs.player;
+      if(player){
+        if (!this.is_progress_dirty){
+          this.setState({
+            progress: player.currentTime / player.duration,
+          });
+        }
+        if(player.ended && this.props.onDone){
+          this.props.onDone();
+          console.log("ended");
+        }
+      }
     }
     togglePlay() {
         this.setState({ is_playing: !this.state.is_playing });
@@ -39,18 +52,19 @@ class Player extends Component {
             });
             this.is_progress_dirty=true;
         }
-        
+
     }
     render() {
         var currentTime = 0;
         var totalTime = 0;
-        
+
         if (this.refs.player) {
             var player = this.refs.player;
-            if (player.currentSrc !== this.state.song_src) {
-                player.src = this.state.song_src;
+            if (player.currentSrc !== this.props.src) {
+                player.src = this.props.src;
             }
-            if (player.paused) {
+            player.loop = this.state.loop;
+            if (player.paused && !player.ended) {
                 if (this.state.is_playing) {
                     player.play();
                 }
@@ -58,28 +72,21 @@ class Player extends Component {
             else if (!this.state.is_playing) {
                 player.pause();
             }
-            
+
             if (this.is_progress_dirty){
             this.is_progress_dirty=false;
-
-            console.log(player.currentTime);
-            player.pause();
-            player.currentTime = player.duration * this.state.progress;
-            player.play();
-            console.log(this.state.progress);
-            console.log(player.duration);
-            console.log(player.currentTime);
-            console.log(player.duration * this.state.progress);
+            player.currentTime = (player.duration * this.state.progress);
             }
 
             if(this.registered_events!== player){
                 this.registered_events = player;
-                
+
                 player.addEventListener('progress',(evt)=>{
                     if(!this.is_progress_dirty){
                     this.setState({
                         progress: player.currentTime / player.duration,
                     });
+                    console.log("changing");
                 }
                 });
 
@@ -95,14 +102,14 @@ class Player extends Component {
         return (
             <div className="player">
                 <div className="controls">
-                    <a>
+                    <a onClick={this.props.onPrev}>
                         <i className="fas fa-fast-backward"></i>
                     </a>
                     <a onClick={this.togglePlay.bind(this)}>
                         <i className={classnames(playerClsName)} aria-hidden="true"></i>
                     </a>
 
-                    <a>
+                    <a onClick={this.props.onNext}>
                         <i className="fas fa-fast-forward"></i>
                     </a>
                 </div>
@@ -121,8 +128,8 @@ class Player extends Component {
                 <div className="time">
                 {formatTime(currentTime)} / {formatTime(totalTime)}
                 </div>
-                <audio ref="player" autoPlay={this.state.is_playing}>
-                    <source src={this.state.song_src}>
+                <audio ref="player" autoPlay={this.state.is_playing} loop={this.loop}>
+                    <source src={this.props.src}>
                     </source>
                 </audio>
             </div>
