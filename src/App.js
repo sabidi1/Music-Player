@@ -16,37 +16,53 @@ class App extends Component {
 
       this.setState({files:files,});
       console.log(files);
-      this.onPlayerNext();
+      this.onPlayerStart();
     })
   }
   onSongDone(){
-    this.setState({
-      song_src: 'http://localhost:8000/Oasis%20-%20Wonderwall.mp3'
-    })
-    console.log("Song is done");
+    //this.setState({
+    //  song_src: 'http://localhost:8000/Oasis%20-%20Wonderwall.mp3'
+    //})
+    //console.log("Song is done");
   }
-  onPlayerNext(){
+
+  onPlayerStart() {
     var song = this.state.files[this.state.counter];
-    console.log('len ' + this.state.files.length);
-    if(this.state.counter < (this.state.files.length-1)){
+
+    if (this.state.counter < (this.state.files.length - 1)) {
       console.log("song: " + song);
       console.log("counter: " + this.state.counter);
-      this.state.counter++;
       this.setState({
         song_src: song,
       })
+    }
   }
+
+  onPlayerNext() {
+    var song = this.state.files[this.state.counter];
+
+    if (this.state.counter < (this.state.files.length - 1)) {
+
+      this.state.counter++;
+      console.log("song: " + song);
+      console.log("counter: " + this.state.counter);
+      this.setState({
+        song_src: song,
+      })
+    }
   }
+
   onPlayerPrev(){
     var song = this.state.files[this.state.counter];
+
     if(this.state.counter > 0){
+      this.state.counter--;
       console.log("song: " + song);
       console.log("counter: " + this.state.counter);
-      this.state.counter--;
       this.setState({
         song_src: song,
       })
-  }
+    }
   }
 
 
