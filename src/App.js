@@ -20,10 +20,7 @@ class App extends Component {
     })
   }
   onSongDone() {
-    //this.setState({
-    //  song_src: 'http://localhost:8000/Oasis%20-%20Wonderwall.mp3'
-    //})
-    //console.log("Song is done");
+    this.onPlayerNext();
   }
 
   onPlayerStart() {
