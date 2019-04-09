@@ -8,8 +8,16 @@ class App extends Component {
   constructor(){
     super();
     this.state ={
-      song_src: 'http://localhost:8000/Imagine%20Dragons%20-%20Natural.mp3',
+      counter: 0,
+      files: [],
+      song_src: null,
     };
+    files('http://localhost:8000/',(err,files)=>{
+
+      this.setState({files:files,});
+      console.log(files);
+      this.onPlayerNext();
+    })
   }
   onSongDone(){
     this.setState({
@@ -18,15 +26,29 @@ class App extends Component {
     console.log("Song is done");
   }
   onPlayerNext(){
-    this.setState({
-      song_src: 'http://localhost:8000/Oasis%20-%20Wonderwall.mp3'
-    })
+    var song = this.state.files[this.state.counter];
+    console.log('len ' + this.state.files.length);
+    if(this.state.counter < (this.state.files.length-1)){
+      console.log("song: " + song);
+      console.log("counter: " + this.state.counter);
+      this.state.counter++;
+      this.setState({
+        song_src: song,
+      })
+  }
   }
   onPlayerPrev(){
-    this.setState({
-      song_src: 'http://localhost:8000/Imagine%20Dragons%20-%20Natural.mp3'
-    })
+    var song = this.state.files[this.state.counter];
+    if(this.state.counter > 0){
+      console.log("song: " + song);
+      console.log("counter: " + this.state.counter);
+      this.state.counter--;
+      this.setState({
+        song_src: song,
+      })
   }
+  }
+
 
   render() {
     return (

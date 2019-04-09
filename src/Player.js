@@ -52,8 +52,8 @@ class Player extends Component {
             });
             this.is_progress_dirty=true;
         }
-
     }
+
     render() {
         var currentTime = 0;
         var totalTime = 0;
@@ -132,6 +132,10 @@ class Player extends Component {
                     <source src={this.props.src}>
                     </source>
                 </audio>
+                {/* <ul className="list">Song List
+                    <li>h1</li>
+                    <li>h2</li>
+                </ul> */}
             </div>
         );
     }

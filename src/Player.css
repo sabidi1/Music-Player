@@ -56,3 +56,10 @@
     padding-top: 15px;
     text-align: center;
 }
+.list{
+    font-size: 25px;
+    font-family: 'Baloo Chettan', cursive;
+    position: absolute;
+    left: 0;
+    padding-top: 25px;
+}
