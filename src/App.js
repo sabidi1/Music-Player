@@ -5,21 +5,21 @@ import Player from './Player'
 import files from './files';
 
 class App extends Component {
-  constructor(){
+  constructor() {
     super();
-    this.state ={
+    this.state = {
       counter: 0,
       files: [],
       song_src: null,
     };
-    files('http://localhost:8000/',(err,files)=>{
+    files('http://localhost:8000/', (err, files) => {
 
-      this.setState({files:files,});
+      this.setState({ files: files, });
       console.log(files);
       this.onPlayerStart();
     })
   }
-  onSongDone(){
+  onSongDone() {
     //this.setState({
     //  song_src: 'http://localhost:8000/Oasis%20-%20Wonderwall.mp3'
     //})
@@ -28,22 +28,21 @@ class App extends Component {
 
   onPlayerStart() {
     var song = this.state.files[this.state.counter];
-
-    if (this.state.counter < (this.state.files.length - 1)) {
-      console.log("song: " + song);
-      console.log("counter: " + this.state.counter);
-      this.setState({
-        song_src: song,
-      })
-    }
+    console.log("song: " + song);
+    console.log("counter: " + this.state.counter);
+    this.setState({
+      song_src: song,
+    })
   }
 
   onPlayerNext() {
-    var song = this.state.files[this.state.counter];
-
-    if (this.state.counter < (this.state.files.length - 1)) {
-
+    
+    if (this.state.counter >= (this.state.files.length - 1)) {
+      console.log("Dont skip forward");
+    }
+    else{
       this.state.counter++;
+      var song = this.state.files[this.state.counter];
       console.log("song: " + song);
       console.log("counter: " + this.state.counter);
       this.setState({
@@ -52,11 +51,14 @@ class App extends Component {
     }
   }
 
-  onPlayerPrev(){
-    var song = this.state.files[this.state.counter];
+  onPlayerPrev() {
 
-    if(this.state.counter > 0){
+    if (this.state.counter <= 0) {
+      console.log("Dont skip backward");
+    }
+    else{
       this.state.counter--;
+      var song = this.state.files[this.state.counter];
       console.log("song: " + song);
       console.log("counter: " + this.state.counter);
       this.setState({
@@ -70,10 +72,10 @@ class App extends Component {
     return (
       <div className="App">
         <div className="title">Music Player</div>
-        <Player src = {this.state.song_src}
-                onDone = {this.onSongDone.bind(this)}
-                onNext = {this.onPlayerNext.bind(this)}
-                onPrev = {this.onPlayerPrev.bind(this)}
+        <Player src={this.state.song_src}
+          onDone={this.onSongDone.bind(this)}
+          onNext={this.onPlayerNext.bind(this)}
+          onPrev={this.onPlayerPrev.bind(this)}
         />
       </div>
     );
