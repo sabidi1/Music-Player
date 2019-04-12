@@ -9,10 +9,9 @@
 .controls>a{
     text-decoration: none;
     height:50px;
-    /*width:50px;*/
     box-sizing: border-box;
     text-align: center;
-    padding: 15px 15px;
+    padding: 14.5px 14.5px;
     float:left;
     color: white;
     cursor: pointer;
@@ -24,12 +23,29 @@
     background-color: lightblue;
     color:#b3b3b3;
 }
+.controls_right>a{
+    text-decoration: none;
+    height:50px;
+    box-sizing: border-box;
+    text-align: center;
+    padding: 14.5px 14.5px;
+    float:left;
+    color: white;
+    cursor: pointer;
+}
+.controls_right{
+    float:right;
+}
+.controls_right > a:hover {
+    background-color: lightblue;
+    color: #b3b3b3;
+}
 .progress{
     position: absolute;
     left: 140px;
     top:15px;
     bottom: 15px;
-    right:100px ;
+    right:195px ;
     background: #F9A4A9;
     cursor: pointer;
 }
@@ -51,9 +67,10 @@
 }
 .time{
     position:absolute;
-    right: 3px;
+    right: 80px;
+    top: -1px;
     color: floralwhite;
-    padding-top: 15px;
+    padding: 15px 15px;
     text-align: center;
 }
 .list{

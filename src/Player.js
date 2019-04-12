@@ -105,12 +105,22 @@ class Player extends Component {
                     <a onClick={this.props.onPrev}>
                         <i className="fas fa-fast-backward"></i>
                     </a>
+
                     <a onClick={this.togglePlay.bind(this)}>
                         <i className={classnames(playerClsName)} aria-hidden="true"></i>
                     </a>
 
                     <a onClick={this.props.onNext}>
                         <i className="fas fa-fast-forward"></i>
+                    </a>
+                </div>
+                <div className="controls_right">
+                    <a onClick={this.props.onLoop}>
+                        <i className="fas fa-redo-alt"></i>
+                    </a>
+
+                    <a onClick={this.props.onShuffle}>
+                        <i className="fas fa-random"></i>
                     </a>
                 </div>
                 <div
