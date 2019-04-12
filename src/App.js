@@ -4,6 +4,8 @@ import './App.css';
 import Player from './Player'
 import files from './files';
 
+var url = require('url')
+
 class App extends Component {
   constructor() {
     super();
@@ -66,6 +68,12 @@ class App extends Component {
 
 
   render() {
+    var current_song;
+    if(this.state.song_src) {
+      var path_parts = url.parse(this.state.song_src).path.split('/');
+      current_song = decodeURIComponent(path_parts[path_parts.length - 1]);
+      console.log(current_song);
+    }
     return (
       <div className="App">
         <div className="title">Music Player</div>
@@ -74,6 +82,7 @@ class App extends Component {
           onNext={this.onPlayerNext.bind(this)}
           onPrev={this.onPlayerPrev.bind(this)}
         />
+        <div className="current-song">{current_song}</div>
       </div>
     );
   }
