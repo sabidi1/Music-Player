@@ -151,6 +151,9 @@ function formatNumber(num){
     return str;
 }
 function formatTime(s){
+    if (!s && s !== 0){
+        return '00:00';
+    }
     var total_seconds = Math.floor(s);
     var hours = Math.floor(total_seconds / 3600);
     var minutes = Math.floor(total_seconds / 60) - hours * 60;
