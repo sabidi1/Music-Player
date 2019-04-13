@@ -138,10 +138,14 @@ class Player extends Component {
                 <div className="time">
                 {formatTime(currentTime)} / {formatTime(totalTime)}
                 </div>
-                <audio ref="player" autoPlay={this.state.is_playing} loop={this.loop}>
+                <audio id = "myaudio" ref="player" autoPlay={this.state.is_playing} loop={this.loop}>
                     <source src={this.props.src}>
                     </source>
                 </audio>
+                <div className="slidecontainer">
+                    <input type="range" min="1" max="100"  className="slider" id="myRange" onChange = {SetVolume} ></input>
+                
+                </div>
                 {/* <ul className="list">Song List
                     <li>h1</li>
                     <li>h2</li>
@@ -150,6 +154,16 @@ class Player extends Component {
         );
     }
 }
+
+var SetVolume = function() { 
+    var video = document.getElementById('myaudio');
+    var volumeControl = document.getElementById('myRange');
+    volumeControl.addEventListener('change', function() {
+        video.volume = this.value / 100;
+    });
+}
+
+
 function formatNumber(num){
     var str = num + '';
     if(str.length == 1){

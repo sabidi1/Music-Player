@@ -82,6 +82,7 @@ class App extends Component {
           onNext={this.onPlayerNext.bind(this)}
           onPrev={this.onPlayerPrev.bind(this)}
         />
+        <br></br>
         <div className="current-song">{current_song}</div>
       </div>
     );
