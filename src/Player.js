@@ -143,7 +143,7 @@ class Player extends Component {
                     </source>
                 </audio>
                 <div className="slidecontainer">
-                    <input type="range" min="1" max="100"  className="slider" id="myRange" onChange = {SetVolume} ></input>
+                    <input className="slider" type="range" min="1" max="100"   id="myslider" onChange = {SetVolume} ></input>
                 
                 </div>
                 {/* <ul className="list">Song List
@@ -156,10 +156,10 @@ class Player extends Component {
 }
 
 var SetVolume = function() { 
-    var video = document.getElementById('myaudio');
-    var volumeControl = document.getElementById('myRange');
+    var audio = document.getElementById('myaudio');
+    var volumeControl = document.getElementById('myslider');
     volumeControl.addEventListener('change', function() {
-        video.volume = this.value / 100;
+        audio.volume = this.value / 100;
     });
 }
 

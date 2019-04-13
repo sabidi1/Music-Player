@@ -86,7 +86,7 @@
     opacity: 1;
   }
 
-.slider {
+#myslider {
     -webkit-appearance: none;
     width: 100%;
     height: 18px;
