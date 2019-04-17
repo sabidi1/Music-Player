@@ -15,9 +15,7 @@ class App extends Component {
       song_src: null,
     };
     files('http://localhost:8000/', (err, files) => {
-
       this.setState({ files: files, });
-      console.log(files);
       this.onPlayerStart();
     })
   }
@@ -66,6 +64,38 @@ class App extends Component {
     }
   }
 
+  onPlayerShuffle(){
+    this.state = {
+      counter: 0,
+      files: [],
+      song_src: null,
+    };
+    files('http://localhost:8000/', (err, files) => {
+      files = this.shuffle(files)
+      this.setState({ files: files, });
+      this.onPlayerStart();
+    })
+  }
+
+  shuffle(array) {
+    var currentIndex = array.length, temporaryValue, randomIndex;
+
+    // While there remain elements to shuffle...
+    while (0 != currentIndex) {
+
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+
+      // And swap it with the current element.
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
+
+    return array;
+  }
+
 
   render() {
     var current_song;
@@ -78,9 +108,10 @@ class App extends Component {
       <div className="App">
         <div className="title">Music Player</div>
         <Player src={this.state.song_src}
-          onDone={this.onSongDone.bind(this)}
-          onNext={this.onPlayerNext.bind(this)}
-          onPrev={this.onPlayerPrev.bind(this)}
+                onShuffle={this.onPlayerShuffle.bind(this)}
+                onDone={this.onSongDone.bind(this)}
+                onNext={this.onPlayerNext.bind(this)}
+                onPrev={this.onPlayerPrev.bind(this)}
         />
         <br></br>
         <div className="current-song">{current_song}</div>
