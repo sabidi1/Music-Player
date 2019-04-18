@@ -13,6 +13,7 @@ class App extends Component {
       counter: 0,
       files: [],
       song_src: null,
+      loop_bool: false
     };
     files('http://localhost:8000/', (err, files) => {
       this.setState({ files: files, });
@@ -33,7 +34,15 @@ class App extends Component {
   }
 
   onPlayerNext() {
-    
+    if (this.state.counter >= (this.state.files.length - 1) && this.loop_bool == true) {
+      this.state.counter = 0;
+      var song = this.state.files[this.state.counter];
+      console.log("song: " + song);
+      console.log("counter: " + this.state.counter);
+      this.setState({
+        song_src: song,
+      })
+    }
     if (this.state.counter >= (this.state.files.length - 1)) {
       console.log("Dont skip forward");
     }
@@ -65,14 +74,10 @@ class App extends Component {
   }
 
   onPlayerShuffle(){
-    this.state = {
-      counter: 0,
-      files: [],
-      song_src: null,
-    };
     files('http://localhost:8000/', (err, files) => {
       files = this.shuffle(files)
-      this.setState({ files: files, });
+      this.setState({ files: files,
+                            counter: 0,});
       this.onPlayerStart();
     })
   }
@@ -96,6 +101,10 @@ class App extends Component {
     return array;
   }
 
+  onPlayerLoop(){
+      this.loop_bool=!this.loop_bool;
+      console.log(this.loop_bool)
+  }
 
   render() {
     var current_song;
@@ -109,6 +118,7 @@ class App extends Component {
         <div className="title">Music Player</div>
         <Player src={this.state.song_src}
                 onShuffle={this.onPlayerShuffle.bind(this)}
+                onLoop={this.onPlayerLoop.bind(this)}
                 onDone={this.onSongDone.bind(this)}
                 onNext={this.onPlayerNext.bind(this)}
                 onPrev={this.onPlayerPrev.bind(this)}

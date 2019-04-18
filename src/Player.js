@@ -10,9 +10,11 @@ class Player extends Component {
             is_playing: false,
             progress: 0,
             in_set_progress_mode:false,
+            loopBgColorBool: false,
         };
         this.is_progress_dirty = false;
         this.interval_id = setInterval(this.onUpdate.bind(this), 250);
+        this.toggleAndLoop = this.toggleAndLoop.bind(this)
     }
     onUpdate(){
       var player = this.refs.player;
@@ -29,9 +31,18 @@ class Player extends Component {
       }
     }
     togglePlay() {
-        this.setState({ is_playing: !this.state.is_playing });
+        this.setState({is_playing: !this.state.is_playing});
     }
+    bgColorToggle() {
+        this.loopBgColorBool = !this.loopBgColorBool
+        if(this.loopBgColorBool == false){
+            this.loopBgColor = 'crimson';
+        }
+        else {
+            this.loopBgColor = 'green';
+        }
 
+    }
     startSetProgress(evt) {
         this.setState({
             in_set_progress_mode: true
@@ -52,6 +63,12 @@ class Player extends Component {
             });
             this.is_progress_dirty=true;
         }
+    }
+
+    toggleAndLoop()
+    {
+        this.bgColorToggle();
+        this.props.onLoop();
     }
 
     render() {
@@ -115,10 +132,10 @@ class Player extends Component {
                     </a>
                 </div>
                 <div className="controls_right">
-                    <a onClick={this.props.onLoop}>
+                    <a onClick={this.toggleAndLoop}
+                       style = {{backgroundColor: this.loopBgColor}}>
                         <i className="fas fa-redo-alt"></i>
                     </a>
-
                     <a onClick={this.props.onShuffle}>
                         <i className="fas fa-random"></i>
                     </a>
