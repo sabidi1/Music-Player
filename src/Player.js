@@ -10,9 +10,11 @@ class Player extends Component {
             is_playing: false,
             progress: 0,
             in_set_progress_mode:false,
+            loopBgColorBool: false,
         };
         this.is_progress_dirty = false;
         this.interval_id = setInterval(this.onUpdate.bind(this), 250);
+        this.toggleAndLoop = this.toggleAndLoop.bind(this)
     }
     onUpdate(){
       var player = this.refs.player;
@@ -29,9 +31,18 @@ class Player extends Component {
       }
     }
     togglePlay() {
-        this.setState({ is_playing: !this.state.is_playing });
+        this.setState({is_playing: !this.state.is_playing});
     }
+    bgColorToggle() {
+        this.loopBgColorBool = !this.loopBgColorBool
+        if(this.loopBgColorBool == false){
+            this.loopBgColor = 'crimson';
+        }
+        else {
+            this.loopBgColor = 'green';
+        }
 
+    }
     startSetProgress(evt) {
         this.setState({
             in_set_progress_mode: true
@@ -52,8 +63,14 @@ class Player extends Component {
             });
             this.is_progress_dirty=true;
         }
-
     }
+
+    toggleAndLoop()
+    {
+        this.bgColorToggle();
+        this.props.onLoop();
+    }
+
     render() {
         var currentTime = 0;
         var totalTime = 0;
@@ -105,12 +122,22 @@ class Player extends Component {
                     <a onClick={this.props.onPrev}>
                         <i className="fas fa-fast-backward"></i>
                     </a>
+
                     <a onClick={this.togglePlay.bind(this)}>
                         <i className={classnames(playerClsName)} aria-hidden="true"></i>
                     </a>
 
                     <a onClick={this.props.onNext}>
                         <i className="fas fa-fast-forward"></i>
+                    </a>
+                </div>
+                <div className="controls_right">
+                    <a onClick={this.toggleAndLoop}
+                       style = {{backgroundColor: this.loopBgColor}}>
+                        <i className="fas fa-redo-alt"></i>
+                    </a>
+                    <a onClick={this.props.onShuffle}>
+                        <i className="fas fa-random"></i>
                     </a>
                 </div>
                 <div
@@ -128,14 +155,32 @@ class Player extends Component {
                 <div className="time">
                 {formatTime(currentTime)} / {formatTime(totalTime)}
                 </div>
-                <audio ref="player" autoPlay={this.state.is_playing} loop={this.loop}>
+                <audio id = "myaudio" ref="player" autoPlay={this.state.is_playing} loop={this.loop}>
                     <source src={this.props.src}>
                     </source>
                 </audio>
+                <div className="slidecontainer">
+                    <input className="slider" type="range" min="1" max="100"   id="myslider" onChange = {SetVolume} ></input>
+                
+                </div>
+                {/* <ul className="list">Song List
+                    <li>h1</li>
+                    <li>h2</li>
+                </ul> */}
             </div>
         );
     }
 }
+
+var SetVolume = function() { 
+    var audio = document.getElementById('myaudio');
+    var volumeControl = document.getElementById('myslider');
+    volumeControl.addEventListener('change', function() {
+        audio.volume = this.value / 100;
+    });
+}
+
+
 function formatNumber(num){
     var str = num + '';
     if(str.length == 1){
@@ -147,6 +192,9 @@ function formatNumber(num){
     return str;
 }
 function formatTime(s){
+    if (!s && s !== 0){
+        return '00:00';
+    }
     var total_seconds = Math.floor(s);
     var hours = Math.floor(total_seconds / 3600);
     var minutes = Math.floor(total_seconds / 60) - hours * 60;
